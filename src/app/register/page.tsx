@@ -12,7 +12,14 @@ import { RadioGroup, Radio } from "@nextui-org/react";
 import clsx from 'clsx';
 interface IDriver {
     name: string,
-    email: string
+    email: string,
+    birth: any,
+    age: string,
+    gender: string,
+    address: string,
+    commercialAddress?: string;
+    phone: string;
+    cnh: string;
 }
 
 const Register = () => {
@@ -20,7 +27,13 @@ const Register = () => {
     const mockDrivers: IDriver[] = [
         {
             name: "Temp",
-            email: "temp@temp.com"
+            email: "temp@temp.com",
+            birth: "01/01/2024",
+            age: "23",
+            gender: "Masculino",
+            address: "Av Brigadeiro Faria Lima, 1234",
+            phone: "(11) 99999-9999",
+            cnh: "1090984471"
         }
     ]
 
@@ -292,7 +305,15 @@ const Register = () => {
                     <Tab className={styles.tabButton} key="drivers" title="Motoristas">
                         <div className={styles.driverTab}>
                             {drivers.map((driver, key) => (
-                                <DriverCard key={key} name={driver.name} email={driver.email} />
+                                <DriverCard key={key}
+                                    email={driver.email}
+                                    name={driver.name}
+                                    age={driver.age}
+                                    birth={driver.birth}
+                                    gender={driver.gender}
+                                    address={driver.address}
+                                    phone={driver.phone}
+                                    cnh={driver.cnh} />
                             ))}
                             <div className={styles.buttonContainer}>
                                 <DriverModal />
@@ -304,7 +325,15 @@ const Register = () => {
                     <Tab className={styles.tabButton} key="organizations" title="Organizações">
                         <div className={styles.driverTab}>
                             {drivers.map((driver, key) => (
-                                <DriverCard key={key} name={driver.name} email={driver.email} />
+                                <DriverCard key={key}
+                                    email={driver.email}
+                                    name={driver.name}
+                                    age={driver.age}
+                                    birth={driver.birth}
+                                    gender={driver.gender}
+                                    address={driver.address}
+                                    phone={driver.phone}
+                                    cnh={driver.cnh} />
                             ))}
                             <div className={styles.buttonContainer}>
                                 <OrganizationModal />
@@ -314,7 +343,15 @@ const Register = () => {
                     <Tab className={styles.tabButton} key="users" title="Usuários">
                         <div className={styles.driverTab}>
                             {drivers.map((driver, key) => (
-                                <DriverCard key={key} name={driver.name} email={driver.email} />
+                                <DriverCard key={key}
+                                    email={driver.email}
+                                    name={driver.name}
+                                    age={driver.age}
+                                    birth={driver.birth}
+                                    gender={driver.gender}
+                                    address={driver.address}
+                                    phone={driver.phone}
+                                    cnh={driver.cnh} />
                             ))}
                             <div className={styles.buttonContainer}>
                                 <UserModal />
