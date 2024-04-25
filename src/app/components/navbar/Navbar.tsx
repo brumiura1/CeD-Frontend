@@ -6,6 +6,7 @@ import NavbarButtonLogout from './navbarButtonLogout/NavbarButtonLogout'
 import Image from 'next/image';
 import NavbarButtonConfig from './navbarButtonConfig/NavbarButtonConfig'
 import NavbarButtonRegistration from './navbarButtonRegistration/NavbarButtonRegistration'
+import NavbarButtonMonitor from './navbarButtonMonitor/NavbarButtonMonitor'
 
 function Navbar() {
   return (
@@ -21,6 +22,7 @@ function Navbar() {
         <NavbarButtonHome />
         <NavbarButtonProfile />
         <NavbarButtonRegistration />
+        <NavbarButtonMonitor />
         <NavbarButtonLogout />
       </div>
     </div>

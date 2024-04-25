@@ -68,9 +68,12 @@
 .input {
   margin: 0;
   color:$barely-white;
-  div {
-      // border-color: $barely-white!important;
-  }
+  div[data-focus="true"] {
+    border-color: $very-light-green!important;
+    *svg {
+      color:$very-light-green;
+    }
+}
 }
 
 .monitorContainer {

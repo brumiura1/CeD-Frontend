@@ -15,6 +15,7 @@ import { Timestamp, addDoc, collection, doc, getDoc, getDocs } from 'firebase/fi
 import { Workshop } from '../interfaces/workshop.type';
 import { Client } from '../interfaces/client.type';
 import { AuthContext } from '../contexts/auth.context';
+import { User } from '../interfaces/user.type';
 interface IDriver {
     name: string,
     email: string,
@@ -57,20 +58,45 @@ const Register = () => {
 
     const [drivers, setDrivers] = useState<any[]>([]);
     const [organizations, setOrganizations] = useState([]);
-    const [users, setUsers] = useState([]);
+    const [users, setUsers] = useState<User[]>([]);
     const [driverModal, setDriverModal] = useState(false);
     const [vehicles, setVehicles] = useState<Vehicle[]>([]);
+    const [workshops, setWorkshops] = useState<Workshop[]>([]);
 
     async function getClients() {
         const querySnapshot = await getDocs(collection(db, "clients"));
         let list:any = []
         querySnapshot.forEach((doc) => {
             const d = doc.data() as any;
-            console.log("a")
+            // console.log("a")
             list = [...list, d]
         });
-        console.log(list)
+        // console.log(list)
         setDrivers(list);
+    }
+
+    async function getWorkshops() {
+        const querySnapshot = await getDocs(collection(db, "workshops"));
+        let list:any = []
+        querySnapshot.forEach((doc) => {
+            const d = doc.data() as any;
+            // console.log("a")
+            list = [...list, d]
+        });
+        // console.log(list)
+        setWorkshops(list);
+    }
+
+    async function getUsers() {
+        const querySnapshot = await getDocs(collection(db, "users"));
+        let list:any = []
+        querySnapshot.forEach((doc) => {
+            const d = doc.data() as any;
+            // console.log("a")
+            list = [...list, d]
+        });
+        // console.log(list)
+        setUsers(list);
     }
 
     async function getVehicles() {
@@ -96,7 +122,9 @@ const Register = () => {
 
     useEffect(() => {
         getClients();
+        getWorkshops();
         getVehicles();
+        getUsers();
     }, [db])
 
     const DriverModal = () => {
@@ -408,10 +436,10 @@ const Register = () => {
                     </Tab>
                     <Tab className={styles.tabButton} key="organizations" title="Organizações">
                         <div className={styles.driverTab}>
-                            {drivers.map((driver, key) => (
+                            {workshops.map((driver, key) => (
                                 <DriverCard key={key}
                                     email={driver.email}
-                                    name={driver.name}
+                                    name={driver.company_name}
                                 />
                             ))}
                             <div className={styles.buttonContainer}>
@@ -421,7 +449,7 @@ const Register = () => {
                     </Tab>
                     <Tab className={styles.tabButton} key="users" title="Usuários">
                         <div className={styles.driverTab}>
-                            {drivers.map((driver, key) => (
+                            {users.map((driver, key) => (
                                 <DriverCard key={key}
                                     email={driver.email}
                                     name={driver.name}

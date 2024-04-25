@@ -40,15 +40,6 @@ const Monitor = () => {
         setShowMonitor(true);
     }
 
-    const Searchbar = () => {
-        return (
-            <Input value={searchValue} onValueChange={(value) => setSearchValue(value)}
-                type="string" placeholder="" variant="bordered" className={styles.input} size={"sm"} radius={"lg"}
-                endContent={<button onClick={handleSearch}>
-                    <FaSearch style={{ fontSize: "1.8em" }} /></button>} />
-        )
-    }
-
     const KmCard = () => (
         <div className={styles.card}>
             <span className={styles.greenRectangle} />
@@ -175,7 +166,10 @@ const Monitor = () => {
                     </div>
                     <div className={styles.searchbarContainer}>
                         {verification ?
-                            <Searchbar /> :
+                            <Input value={searchValue} onValueChange={(value) => setSearchValue(value)}
+                            type="string" placeholder="" variant="bordered" className={styles.input} size={"sm"} radius={"lg"}
+                            endContent={<button onClick={handleSearch}>
+                                <FaSearch style={{ fontSize: "1.8em" }} /></button>} /> :
                             <></>}
                     </div>
                     <div className={styles.monitorContainer}>
