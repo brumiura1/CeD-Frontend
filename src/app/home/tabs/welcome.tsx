@@ -18,8 +18,14 @@ export default function Welcome() {
     const [workshops, setWorkshops] = useState<any>([]);
     const [selectedWorkshop, setSelectedWorkshop] = useState<string | null>(null);
     const { currentUser, db } = useContext(AuthContext);
-    let userJson: any;
-    userJson = JSON.parse(localStorage.getItem("user")!)
+    const [userJson, setUserJson] = useState<any>({});
+    useEffect(() => {
+        setUserJson(JSON.parse(localStorage.getItem("user")!))
+    }, [])
+
+    useEffect(() => {
+        getWorks();
+    }, [userJson])
 
     async function getWorkshop(id: string) {
         const docRef = doc(db, "workshops", id);
@@ -34,14 +40,11 @@ export default function Welcome() {
     }
 
     async function getWorks() {
-        const works = (userJson.workshops?.forEach((item: string) => {
+        const works = (userJson.workshops.forEach((item: string) => {
             getWorkshop(item)
         }))
     }
 
-    useEffect(() => {
-        getWorks();
-    }, [])
 
     // useEffect(() => {
     //     console.log(currentUser)
