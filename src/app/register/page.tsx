@@ -63,7 +63,7 @@ const Register = () => {
 
     async function getClients() {
         const querySnapshot = await getDocs(collection(db, "clients"));
-        let list = []
+        let list:any = []
         querySnapshot.forEach((doc) => {
             const d = doc.data() as any;
             console.log("a")
