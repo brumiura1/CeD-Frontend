@@ -9,13 +9,13 @@ import { FaRegTrashAlt } from "react-icons/fa";
 interface DriverCardProps {
     name: string,
     email: string,
-    birth: any,
-    age: string,
-    gender: string,
-    address: string,
+    birth?: any,
+    age?: string,
+    gender?: string,
+    address?: string,
     commercialAddress?: string;
-    phone: string;
-    cnh: string;
+    phone?: string;
+    cnh?: string;
 }
 
 function DriverCard(props: DriverCardProps) {
@@ -33,6 +33,9 @@ function DriverCard(props: DriverCardProps) {
                             <p className={styles.cardText}>Nome: {props.name}</p>
                         </div>
                         <div className={styles.row}>
+                            <p className={styles.cardText}>Email: {props.email}</p>
+                        </div>
+                        {/* <div className={styles.row}>
                             <p className={styles.cardText}>Data de nascimento: {props.birth}</p>
                             <p className={styles.cardText}>Gênero: {props.gender}</p>
                             <p className={styles.cardText}>Idade: {props.age}</p>
@@ -48,7 +51,7 @@ function DriverCard(props: DriverCardProps) {
                         </div>
                         <div className={styles.row}>
                             <p className={styles.cardText}>CNH: {props.cnh}</p>
-                        </div>
+                        </div> */}
                     </div>
                     <div className={clsx(styles.card, styles.vehiclesCard)}>
                         <h4 className={styles.cardTitle}>Carros</h4>
@@ -69,9 +72,9 @@ function DriverCard(props: DriverCardProps) {
     }
 
     return (
-        <div>
+        <div style={{margin: "0.5em 0"}}>
             <Accordion className={styles.accordion}>
-                <AccordionItem key="1" title={`${props.name} ${props.email}`} className={styles.item}
+                <AccordionItem key="1" title={`${props.name}`} className={styles.item}
                     startContent={
                         <IoPersonCircle className={styles.personIcon} />
                     }>

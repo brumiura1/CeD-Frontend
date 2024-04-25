@@ -25,4 +25,5 @@ export interface Workshop {
     avg_ticket: number;
     monthly_goal: number;
     revenue: number;
+    clients: string[];
 }

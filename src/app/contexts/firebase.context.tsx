@@ -1,9 +1,10 @@
 import { ReactNode, createContext } from 'react';
-import { getApps, initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import firebase from "firebase/compat/app";
+// Required for side-effects
+import "firebase/firestore";
 
 interface FirebaseContextData {
-    app: any
+    firebaseConfig: any,
 }
 
 interface FirebaseProviderProps {
@@ -23,11 +24,9 @@ export function FirebaseProvider({ children }: FirebaseProviderProps) {
         measurementId: process.env.NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID,
     };
 
-    let app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-
     return (
         <FirebaseContext.Provider
-            value={{ app } as FirebaseContextData}>
+            value={{ firebaseConfig } as FirebaseContextData}>
             {children}
         </FirebaseContext.Provider>
     );

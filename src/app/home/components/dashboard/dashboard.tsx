@@ -7,22 +7,63 @@ import React, { useContext, useEffect, useState } from 'react'
 import styles from "../../tabs/welcome.module.scss"
 import CustomTable from '../table/table';
 import CustomChart from '../chart/chart';
+import { AuthContext } from '@/app/contexts/auth.context';
+import { Timestamp, doc, getDoc } from 'firebase/firestore';
+import { Workshop } from '@/app/interfaces/workshop.type';
+import { AppUser } from '@/app/interfaces/appUser.type';
 
 interface DashboardProps {
     selectedWorkshop: any;
 }
 
+interface Client {
+    uid: string,
+    email: string,
+    preferred_workshop: string,
+    name: string,
+    phone: string,
+    createdAt: Timestamp,
+    type: string, 
+    vehicles: {
+        id: string,
+        obd2_mac?: string,
+        gps_mac?: string,
+        initial_km: number,
+        vin?: string,
+        gas_capacity?: number,
+    }[]
+}
+
 export default function Dashboard(props: DashboardProps) {
+    const { db } = useContext(AuthContext);
     const columns = [
-        {label: "Cliente", value:"client"},
-        {label: "Veículo", value:"vehicle"},
-        {label: "Manutenção", value:"maintenance"},
-        {label: "Km atual", value:"km_current"},
-        {label: "Km limite", value:"km_threshold"},
-        {label: "Data limite", value:"date_threshold"},
-        {label: "Status", value:"status"},
-        {label: "Agendamento", value:"appointment"},
+        { label: "Cliente", value: "client" },
+        { label: "Veículo", value: "vehicle" },
+        { label: "Manutenção", value: "maintenance" },
+        { label: "Km atual", value: "km_current" },
+        { label: "Km limite", value: "km_threshold" },
+        { label: "Data limite", value: "date_threshold" },
+        { label: "Status", value: "status" },
+        { label: "Agendamento", value: "appointment" },
     ]
+
+    async function getClient(uid: string) {
+        const clientRef = doc(db, "appUsers", uid);
+        const client = (await getDoc(clientRef)).data() as AppUser;
+
+    }
+
+    async function getClients() {
+        const docRef = doc(db, "workshops", props.selectedWorkshop);
+        const workshop = (await getDoc(docRef)).data() as Workshop;
+        workshop.clients.forEach((item) => {
+            getClient(item)
+        })
+    }
+
+    useEffect(() => {
+
+    }, [])
 
     const mockData = [
         {
@@ -75,7 +116,7 @@ export default function Dashboard(props: DashboardProps) {
                 </div>
             </div>
             <div className={styles.tableContainer}>
-                <CustomTable data={mockData}/>
+                <CustomTable data={mockData} />
             </div>
         </div>
     );

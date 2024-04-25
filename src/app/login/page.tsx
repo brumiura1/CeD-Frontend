@@ -88,10 +88,10 @@ const Login = () => {
                 <Button color="success" className={styles.button} onClick={handleLogin}>
                     ENTRAR
                 </Button>
-                <div className={styles.recoveryContainer}>
+                {/* <div className={styles.recoveryContainer}>
                     <p className={styles.text}>Esqueceu a senha?</p> <span style={{ marginRight: "0.5em" }} />
                     <Link href="" className={styles.link}>Clique aqui!</Link>
-                </div>
+                </div> */}
             </div>
         </div>
     );

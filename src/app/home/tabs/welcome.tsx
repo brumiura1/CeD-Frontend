@@ -8,20 +8,44 @@ import { redirect } from 'next/navigation';
 
 import CustomTable from '../components/table/table';
 import Dashboard from '../components/dashboard/dashboard';
+import { User } from '@/app/interfaces/user.type';
+import { doc, getDoc } from 'firebase/firestore';
+import { Workshop } from '@/app/interfaces/workshop.type';
 
 
 export default function Welcome() {
 
     const [workshops, setWorkshops] = useState<any>([]);
     const [selectedWorkshop, setSelectedWorkshop] = useState<string | null>(null);
-    const { currentUser } = useContext(AuthContext);
+    const { currentUser, db } = useContext(AuthContext);
+    let userJson: any;
+    userJson = JSON.parse(localStorage.getItem("user")!)
+
+    async function getWorkshop(id: string) {
+        const docRef = doc(db, "workshops", id);
+        const data = (await getDoc(docRef)).data() as Workshop;
+        setWorkshops([
+            ...workshops,
+            {
+                label: data.company_name,
+                key: data.id
+            }
+        ])
+    }
+
+    async function getWorks() {
+        const works = (userJson.workshops?.forEach((item: string) => {
+            getWorkshop(item)
+        }))
+    }
 
     useEffect(() => {
-        setWorkshops([
-            { label: "Geral", key: "Geral" },
-            { label: "Oficina 1", key: "Oficina 1" }
-        ])
+        getWorks();
     }, [])
+
+    // useEffect(() => {
+    //     console.log(currentUser)
+    // }, [currentUser])
 
     const WelcomeImage = () => {
         return (
@@ -47,7 +71,7 @@ export default function Welcome() {
                             fill
                             style={{ objectFit: 'cover' }} />
                     </div>
-                    <h1 className={styles.mainTitle}>Olá, Fulano!</h1>
+                    <h1 className={styles.mainTitle}>{`Olá, ${userJson.name}!`}</h1>
                 </div>
                 <p className={styles.subtext}>Gostaria de conferir o status da sua oficina?</p>
                 <p className={styles.subtext}>Selecione alguma opção abaixo:</p>
@@ -61,10 +85,14 @@ export default function Welcome() {
             </div>
             {selectedWorkshop ?
                 <Dashboard
-                selectedWorkshop={selectedWorkshop} />
+                    selectedWorkshop={selectedWorkshop} />
                 :
                 <WelcomeImage />
             }
         </div>
     )
 }
+function getWorks() {
+    throw new Error('Function not implemented.');
+}
+

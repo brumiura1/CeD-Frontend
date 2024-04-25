@@ -55,10 +55,19 @@
 .input {
     margin: 0.5em 0 2em 0;
     color:$barely-white;
-    div {
-        // border-color: $barely-white!important;
+    div[data-focus="true"] {
+        border-color: $very-light-green!important;
+        *svg {
+          color:$very-light-green;
+        }
     }
 }
+
+// .input[data-focus-within="true"] {
+//   >* {
+//     border-color: $very-light-green!important;
+//   }
+// }
 
 .button {
     color:$barely-white;

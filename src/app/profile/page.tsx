@@ -5,10 +5,10 @@ import Navbar from '@/app/components/navbar/Navbar';
 import Footer from '../components/footer/Footer';
 import Image from 'next/image';
 import { Input } from "@nextui-org/react";
-import { User } from '../interfaces/user.type';
+import { AppUser } from '../interfaces/appUser.type';
 
 const Profile = () => {
-  const mockUser: User = {
+  const mockUser: AppUser = {
     uid: "1",
     name: "Bruno Miura",
     role: "user",

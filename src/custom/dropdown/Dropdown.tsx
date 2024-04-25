@@ -23,6 +23,14 @@ interface DropdownProps {
 function DropdownComponent(props: DropdownProps) {
     const [isOpen, setIsOpen] = useState(false);
 
+    function getLabel(key: string) {
+        let label = "";
+        props.options.forEach((i) => {
+            if(i.key == key) label = i.label;
+        })
+        return label;
+    }
+
     return (
         <Dropdown
             isOpen={isOpen}
@@ -31,7 +39,7 @@ function DropdownComponent(props: DropdownProps) {
             <DropdownTrigger>
                 <Button
                     className={isOpen ? styles.activeButton : styles.button}
-                    variant="bordered">{props.value ? props.value : props.placeholder}
+                    variant="bordered">{props.value ? getLabel(props.value) : props.placeholder}
                     <div style={{ width: "2.6em", height: "100%" }}>
                         <span className={isOpen ? styles.activevl : styles.vl} />
                         <div className={styles.caretContainer}>
