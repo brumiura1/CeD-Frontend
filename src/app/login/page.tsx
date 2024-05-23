@@ -8,10 +8,11 @@ import { Button } from "@nextui-org/react";
 import Link from 'next/link';
 import { AuthContext } from '../contexts/auth.context';
 import { useRouter } from 'next/navigation';
+import { FaGoogle } from 'react-icons/fa6';
 
 const Login = () => {
 
-    const { login, currentUser } = useContext(AuthContext);
+    const { login, currentUser, googleLogin } = useContext(AuthContext);
     const [email, setEmail] = useState<string>();
     const [password, setPassword] = useState<string>();
     const [emailValid, setEmailValid] = useState<boolean>(true);
@@ -32,11 +33,11 @@ const Login = () => {
     }
 
     async function handleLogin() {
-        if(validateFields()) {
+        if (validateFields()) {
             try {
                 await login(email!, password!);
                 router.replace('/home');
-            } catch(err) {
+            } catch (err) {
                 setEmailValid(false);
                 setPasswordValid(false);
             }
@@ -53,6 +54,15 @@ const Login = () => {
             return false;
         }
         return true;
+    }
+
+    async function handleGoogleLogin() {
+        try {
+            await googleLogin();
+            router.replace('/home');
+        } catch (err) {
+            console.log("Error on google auth")
+        }
     }
 
     return (
@@ -77,17 +87,30 @@ const Login = () => {
                     <h1 className={styles.title}>Bem-vindo!</h1>
                     <HR />
                 </div>
-                <h2 className={styles.infoLabel}>Email</h2>
-                <Input value={email} onValueChange={(value) => setEmail(value)}
-                    type="email" placeholder="Digite seu email" variant="bordered" isInvalid={!emailValid} className={styles.input}
-                    endContent={<MdOutlineMailOutline style={{ fontSize: "1.8em" }} />} />
-                <h2 className={styles.infoLabel}>Senha</h2>
-                <Input value={password} onValueChange={(value) => setPassword(value)}
-                    type="password" placeholder="Digite sua senha" variant="bordered" isInvalid={!passwordValid} className={styles.input}
-                    endContent={<MdLockOutline style={{ fontSize: "1.8em" }} />} />
-                <Button color="success" className={styles.button} onClick={handleLogin}>
-                    ENTRAR
-                </Button>
+                {/* <form onSubmit={(e)=> {e.preventDefault; handleLogin();}}> */}
+                    <h2 className={styles.infoLabel}>Email</h2>
+                    <Input value={email} onValueChange={(value) => setEmail(value)}
+                        type="email" placeholder="Digite seu email" variant="bordered" isInvalid={!emailValid} className={styles.input}
+                        endContent={<MdOutlineMailOutline style={{ fontSize: "1.8em" }} />} />
+                    <h2 className={styles.infoLabel}>Senha</h2>
+                    <Input value={password} onValueChange={(value) => setPassword(value)}
+                        type="password" placeholder="Digite sua senha" variant="bordered" isInvalid={!passwordValid} className={styles.input}
+                        endContent={<MdLockOutline style={{ fontSize: "1.8em" }} />} />
+                    <Button color="success" className={styles.button} onClick={handleLogin}>
+                        ENTRAR
+                    </Button>
+                    {/* <input type="submit" value="Submit" />
+                </form> */}
+                <div className={styles.googleContainer}>
+                    <div className={styles.googleTitleContainer}>
+                        <span className={styles.horizontalLine}></span>
+                        <p className={styles.googleLoginText}>Ou continue com:</p>
+                        <span className={styles.horizontalLine}></span>
+                    </div>
+
+                    <Button className={styles.googleBtn} onClick={handleGoogleLogin}>
+                        <FaGoogle className={styles.googleIcon} /></Button>
+                </div>
                 {/* <div className={styles.recoveryContainer}>
                     <p className={styles.text}>Esqueceu a senha?</p> <span style={{ marginRight: "0.5em" }} />
                     <Link href="" className={styles.link}>Clique aqui!</Link>

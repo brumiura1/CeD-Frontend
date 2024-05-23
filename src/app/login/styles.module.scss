@@ -61,6 +61,10 @@
           color:$very-light-green;
         }
     }
+    >*input:-webkit-autofill {
+      color:$barely-white;
+      transition: all 1s 5000s;
+    }
 }
 
 // .input[data-focus-within="true"] {
@@ -75,6 +79,8 @@
     letter-spacing: 1.2px; 
     font-size: 1em;
     font-weight: 500;
+    height:2.6em;
+    width:100%;
 }
 
 .recoveryContainer {
@@ -87,4 +93,41 @@
 .link {
     color: #50CB61;
     font-weight: 500;
+}
+.googleBtn {
+  $size: 4em;
+  background: linear-gradient(180deg, #27A338 0%, #0C731A 100%); 
+  // border-radius: 1em;
+  height:2.6em;
+  width:40%;
+  margin: 1em 0 0 0em;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  padding:5px;
+
+}
+.googleIcon {
+  color:$barely-white;
+  font-size: 2em;
+}
+.googleLoginText {
+  color:$very-light-gray;
+  font-size: 0.9em;
+}
+
+.googleContainer {
+  margin: 1em 0 0 0;
+  // align-items: center;
+  flex-direction: column;
+}
+.googleTitleContainer {
+  width:100%;
+  align-items: center;
+  justify-content: space-between;
+}
+.horizontalLine {
+  height:1px;
+  width:25%;
+  border: 1px solid $barely-white;
 }

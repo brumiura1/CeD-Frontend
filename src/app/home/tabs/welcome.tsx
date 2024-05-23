@@ -40,9 +40,14 @@ export default function Welcome() {
     }
 
     async function getWorks() {
-        const works = (userJson.workshops.forEach((item: string) => {
-            getWorkshop(item)
-        }))
+        console.log(userJson)
+        if(userJson!.role == "master" || userJson.role == "admin" ) {
+            setWorkshops([{label: 'Geral', key: 'general'}]);
+        } else {
+            (userJson.workshops.forEach((item: string) => {
+                getWorkshop(item)
+            }))
+        }
     }
 
 

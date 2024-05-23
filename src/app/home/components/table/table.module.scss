@@ -22,3 +22,23 @@
   color: $barely-white;
   font-size: 1em;
 }
+.buttonsWrap {
+  width:100%;
+  justify-content: center;
+  margin-bottom: 2em;
+}
+
+.button {
+  color:$barely-white;
+  background: linear-gradient(180deg, #27A338 0%, #0C731A 100%);
+  letter-spacing: 1.2px; 
+  font-size: 0.7em;
+  font-weight: 500;
+  height:2.4em;
+  width:12em;
+  margin: 1em;
+}
+
+.scheduleBtn {
+  text-decoration: underline;
+}

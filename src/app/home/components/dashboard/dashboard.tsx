@@ -11,7 +11,9 @@ import { AuthContext } from '@/app/contexts/auth.context';
 import { Timestamp, doc, getDoc } from 'firebase/firestore';
 import { Workshop } from '@/app/interfaces/workshop.type';
 import { AppUser } from '@/app/interfaces/appUser.type';
-
+import { Button } from '@nextui-org/react';
+import { jsPDF } from "jspdf";
+import autoTable from 'jspdf-autotable'
 interface DashboardProps {
     selectedWorkshop: any;
 }
@@ -23,7 +25,7 @@ interface Client {
     name: string,
     phone: string,
     createdAt: Timestamp,
-    type: string, 
+    type: string,
     vehicles: {
         id: string,
         obd2_mac?: string,
@@ -38,12 +40,8 @@ export default function Dashboard(props: DashboardProps) {
     const { db } = useContext(AuthContext);
     const columns = [
         { label: "Cliente", value: "client" },
-        { label: "Veículo", value: "vehicle" },
         { label: "Manutenção", value: "maintenance" },
-        { label: "Km atual", value: "km_current" },
-        { label: "Km limite", value: "km_threshold" },
-        { label: "Data limite", value: "date_threshold" },
-        { label: "Status", value: "status" },
+        { label: "Data", value: "date" },
         { label: "Agendamento", value: "appointment" },
     ]
 
@@ -68,15 +66,27 @@ export default function Dashboard(props: DashboardProps) {
     const mockData = [
         {
             client: "José",
-            vehicle: "Fiat Uno",
             maintenance: "Revisão",
-            km_current: "9500",
-            km_threshold: "10000",
-            date_threshold: "10/06/2024",
-            status: "Próxima",
+            date: '22/05/2024',
             appointment: "Agendar"
         }
     ]
+
+    function exportPDF() {
+        const doc = new jsPDF();
+        autoTable(doc, {html: '#maintenance-table'})
+        // autoTable(doc, {
+        //     head:[['Cliente', 'Manutenção', 'Data']],
+        //     body:[
+        //         ['Teste', 'Revisão', '27/06/2024']
+        //     ]
+        // });
+        doc.save('table.pdf')
+    }
+
+    function sendEmail() {
+
+    }
 
     return (
         <div className={styles.dashboardContainer}>
@@ -117,6 +127,14 @@ export default function Dashboard(props: DashboardProps) {
             </div>
             <div className={styles.tableContainer}>
                 <CustomTable data={mockData} />
+            </div>
+            <div className={styles.buttonsWrap}>
+                <Button className={styles.button} onClick={exportPDF}>
+                    Exportar PDF
+                </Button>
+                <Button className={styles.button} onClick={sendEmail}>
+                    Enviar por Email
+                </Button>
             </div>
         </div>
     );

@@ -9,28 +9,22 @@ interface CustomTableProps {
 
 function CustomTable(props: CustomTableProps) {
     return (
-        <Table aria-label="Maintenance info table" className={styles.table}>
+        <Table aria-label="Maintenance info table" className={styles.table} id="maintenance-table">
             <TableHeader className={styles.header}>
                 <TableColumn>Cliente</TableColumn>
-                <TableColumn>Veículo</TableColumn>
                 <TableColumn>Manutenção</TableColumn>
-                <TableColumn>Km atual</TableColumn>
-                <TableColumn>Km limite</TableColumn>
-                <TableColumn>Data limite</TableColumn>
-                <TableColumn>Status</TableColumn>
+                <TableColumn>Data</TableColumn>
                 <TableColumn>Agendamento</TableColumn>
             </TableHeader>
             <TableBody>
                 {props.data.map((row, key) => (
                     <TableRow key={key}>
                         <TableCell className={styles.cell}>{row.client}</TableCell>
-                        <TableCell className={styles.cell}>{row.vehicle}</TableCell>
                         <TableCell className={styles.cell}>{row.maintenance}</TableCell>
-                        <TableCell className={styles.cell}>{row.km_current}</TableCell>
-                        <TableCell className={styles.cell}>{row.km_threshold}</TableCell>
-                        <TableCell className={styles.cell}>{row.date_threshold}</TableCell>
-                        <TableCell className={styles.cell}>{row.status}</TableCell>
-                        <TableCell className={styles.cell}>{row.appointment}</TableCell>
+                        <TableCell className={styles.cell}>{row.date}</TableCell>
+                        <TableCell className={styles.cell}>
+                            <button className={styles.scheduleBtn}>{row.appointment}</button>
+                        </TableCell>
                     </TableRow>
                 ))}
             </TableBody>

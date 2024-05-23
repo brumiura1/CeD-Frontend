@@ -1,6 +1,6 @@
 "use client";
 import { ReactNode, createContext, useContext, useEffect, useState } from 'react';
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signInWithRedirect, signOut } from "firebase/auth";
 import { FirebaseContext } from './firebase.context';
 import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, where } from 'firebase/firestore';
 import { User } from '../interfaces/user.type';
@@ -12,6 +12,7 @@ interface AuthContextData {
     signUp: (email: string, password: string) => Promise<any>;
     currentUser: User | undefined;
     db: any;
+    googleLogin: () => Promise<any>;
 }
 
 interface AuthProviderProps {
@@ -37,6 +38,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     const auth = getAuth(app);
     const [currentUser, setCurrentUser] = useState<User>();
+    const provider = new GoogleAuthProvider();
 
     async function logout() {
         await signOut(auth)
@@ -100,9 +102,53 @@ export function AuthProvider({ children }: AuthProviderProps) {
         }
     }
 
+    async function googleLogin() {
+        let user: User = {
+            email: "",
+            uid: "",
+            role: "",
+            name: ""
+        };
+        await signInWithPopup(auth, provider)
+            .then((result) => {
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential!.accessToken;
+                const userRaw = result.user;
+                user.email = userRaw.email!;
+            }).catch((error) => {
+                // Handle Errors here.
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                // The email of the user's account used.
+                const email = error.customData.email;
+                // The AuthCredential type that was used.
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                // ...
+            });
+
+        const usersRef = collection(db, "users");
+        const q = query(usersRef, where("email", "==", user.email));
+        const querySnapshot = await getDocs(q);
+        console.log("oi");
+        if(!querySnapshot.empty) {
+            console.log("oi");
+            querySnapshot.forEach((doc) => {
+                const data = doc.data();
+                user.name = data.name;
+                user.role = data.role;
+                user.uid = data.uid;
+                user.workshops = data.workshops;
+            });
+            if (user.uid != "") {
+                setCurrentUser(user as User);
+                localStorage.setItem("user", JSON.stringify(user))
+            }
+        }
+    }
+
     return (
         <AuthContext.Provider
-            value={{ login, logout, signUp, currentUser, db }}>
+            value={{ login, logout, signUp, currentUser, db, googleLogin }}>
             {children}
         </AuthContext.Provider>
     );
